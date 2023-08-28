@@ -6,7 +6,7 @@ export default function Home() {
 const [title, setTitle] = useState("")
 const [description, setDescription] = useState("")
 const [isCreate, setIsCreate] = useState(false)
-const [tasks, setTasks] = useState([])
+const [tasks, set98Tasks] = useState([])
 async function fetchFirebase() {
   const documentsArray = [];
   const querySnapshot = await getDocs(collection(db, "tasks"));
@@ -17,7 +17,7 @@ async function fetchFirebase() {
 }
 useEffect(() => {
   fetchFirebase()
-}, [tasks])
+}, [])
 
  
   async function handleSubmit(e) {  
@@ -69,17 +69,16 @@ function handleInputDescription(e) {
   const values = e.target.value;
   setDescription(values)
 }
-async function editMode(id){
+async function editMode(id, item){
   const citiesRef = collection(db, "tasks");
   const date = id;
   try {
     await setDoc(doc(citiesRef, id.toString()), {
-      title: title,
-      description: description,
+      title: item.title,
+      description: item.description  ,
       id:date,
       isCreate: true
     });
-    
     console.log("Documento en modo edición");
   } catch (error) {
     console.error("Error al activar el modo edición de el documento:", error);
@@ -87,18 +86,23 @@ async function editMode(id){
 }
   return (
     <main>
-      <form onSubmit={handleSubmit}>
+{/*       <form onSubmit={handleSubmit}>
         <input type="text" placeholder="Título" onChange={handleInputTitle}/>
         <input type="text" placeholder="Descripción" onChange={handleInputDescription}/>
         <button type="submit">Crear</button>  
       </form>
 {tasks.map(item => (
-item.isCreate == false ? <div key={item.id}><h1>Título: {item.title}</h1><p>Descripción: {item.description}</p> <button onClick={() => removeDocument(item.id)}>Delete</button><button onClick={() => editMode(item.id)}>Edit</button></div> : <div key={item.id}><form onSubmit={(e) => handleSubmitEdit(e, item.id)}>
+item.isCreate == false ? <div key={item.id}><h1>Título: {item.title}</h1><p>Descripción: {item.description}</p> <button onClick={() => removeDocument(item.id)}>Delete</button><button onClick={() => editMode(item.id, item)}>Edit</button></div> : <div className="modalContainer" key={item.id}><form className="modalContent" onSubmit={(e) => handleSubmitEdit(e, item.id)}>
 <input defaultValue={item.title} type="text" placeholder="Título" onChange={handleInputTitle}/>
 <input defaultValue={item.description} type="text" placeholder="Descripción" onChange={handleInputDescription}/>
-<button type="submit">Crear</button>  
+<button type="submit">Finalizar edición</button>  
 </form></div>
-))}
+))} */}
+<div className="modalContainer"><form className="modalContent" onSubmit={(e) => handleSubmitEdit(e, item.id)}>
+<input type="text" placeholder="Título" onChange={handleInputTitle}/>
+<input type="text" placeholder="Descripción" onChange={handleInputDescription}/>
+<button type="submit">Finalizar edición</button>  
+</form></div>
     </main>
   )
 }
