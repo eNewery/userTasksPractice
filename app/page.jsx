@@ -14,6 +14,7 @@ async function fetchFirebase() {
   documentsArray.push(doc.data())
   })
   setTasks(documentsArray)
+  console.log(tasks)
 }
 useEffect(() => {
   fetchFirebase()
